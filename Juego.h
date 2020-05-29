@@ -12,15 +12,21 @@
 class Juego {
 private:
     int **tablero;
+    int tamTablero;
     int cantVidas;
     int cantBombas;
+    void generarTablero();
+    void llenarTablero();
+    void dibujarTablero();
 public:
     Juego();
-    Juego(int **,int,int);
+    Juego(int,int,int);
     Juego(const Juego&);
     void operator=(Juego);
     int Mover(char);
     int Explorar(int r);
+    int getVidas();
+    int getTamTablero();
     ~Juego();
 };
 
