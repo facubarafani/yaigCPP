@@ -15,6 +15,8 @@ private:
     int tamTablero;
     int cantVidas;
     int cantBombas;
+    int posJugadorX;
+    int posJugadorY;
     void generarTablero();
     void llenarTablero();
     void dibujarTablero();
@@ -23,8 +25,8 @@ public:
     Juego(int,int,int);
     Juego(const Juego&);
     void operator=(Juego);
-    int Mover(char);
-    int Explorar(int r);
+    int mover(char);
+    int explorar(int);
     int getVidas();
     int getTamTablero();
     ~Juego();

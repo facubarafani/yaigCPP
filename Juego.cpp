@@ -16,9 +16,11 @@
 using namespace std;
 
 Juego::Juego(){
-    this->tamTablero = 10;
-    this->cantVidas = 3;
-    this->cantBombas = 25;
+    tamTablero = 10;
+    cantVidas = 3;
+    cantBombas = 25;
+    posJugadorX = 0;
+    posJugadorY = 0;
     
     tablero = new int* [tamTablero];
     
@@ -33,6 +35,8 @@ Juego::Juego(int tamTablero, int cantVidas, int cantBombas){
     this->tamTablero = tamTablero;
     this->cantVidas = cantVidas;
     this->cantBombas = cantBombas;
+    posJugadorX = 0;
+    posJugadorY = 0;
     tablero = new int* [tamTablero];
     
     for (int i=0;i<tamTablero;i++){
@@ -60,6 +64,9 @@ void Juego::generarTablero(){
             
         }
     }
+    
+    tablero[posJugadorX][posJugadorY] = 1;
+    
     llenarTablero();
     
 }
@@ -72,14 +79,125 @@ void Juego::llenarTablero(){
     tablero[tx][ty] = 3;
     
     for (int i=0;i<=cantBombas;i++){
-        int x = (rand()%tamTablero);
-        int y = (rand()%tamTablero);
-        tablero[x][y] = 1;
+        int x = rand()%(tamTablero);
+        int y = rand()%(tamTablero);
+        tablero[x][y] = 2;
     }
     
     dibujarTablero();
     
 }
+
+int Juego::mover(char d){
+    
+    switch(d) {
+        case 'N':
+            if (tablero[posJugadorX+1][posJugadorY] == '0'){
+                posJugadorX+=1;
+                tablero[posJugadorX][posJugadorY] = 1;
+                return 0;
+            }
+            else if (tablero[posJugadorX+1][posJugadorY] == '2'){
+                if (cantVidas>0){
+                    cantVidas-=1;
+                    return 1;
+                }
+                else{
+                    return 2;
+                }
+            }
+            else {
+                return 3;
+            }
+            break;
+        case 'S':
+            if (tablero[posJugadorX-1][posJugadorY] == '0'){
+                posJugadorX-=1;
+                tablero[posJugadorX][posJugadorY] = 1;
+                return 0;
+            }
+            else if (tablero[posJugadorX-1][posJugadorY] == '2'){
+                if (cantVidas>0){
+                    cantVidas-=1;
+                    return 1;
+                }
+                else{
+                    return 2;
+                }
+            }
+            else {
+                return 3;
+            }
+            
+            break;
+        case 'E':
+            if (tablero[posJugadorX][posJugadorY-1] == '0'){
+                posJugadorY-=1;
+                tablero[posJugadorX][posJugadorY] = 1;
+                return 0;
+            }
+            else if (tablero[posJugadorX][posJugadorY-1] == '2'){
+                if (cantVidas>0){
+                    cantVidas-=1;
+                    return 1;
+                }
+                else{
+                    return 2;
+                }
+            }
+            else {
+                return 3;
+            }
+            
+            break;
+        case 'O':
+            if (tablero[posJugadorX][posJugadorY+1] == '0'){
+                posJugadorY+=1;
+                tablero[posJugadorX][posJugadorY] = 1;
+                return 0;
+            }
+            else if (tablero[posJugadorX][posJugadorY+1] == '2'){
+                if (cantVidas>0){
+                    cantVidas-=1;
+                    return 1;
+                }
+                else{
+                    return 2;
+                }
+            }
+            else {
+                return 3;
+            }
+            
+            break;
+        default:
+            return 1;
+    }
+}
+
+int Juego::explorar(int r){
+    
+    int contadorBombas = 0;
+    
+    for (int i=0;i<=r;i++){
+        for (int j=0;j<=r;j++){
+            if (tablero[posJugadorX+i][posJugadorY+j] == 2){
+                contadorBombas+=1;
+            }
+        }
+    }
+    
+//    for (int i=-r;i<=r;i++){
+//        for (int j=-r;j<=r;j++){
+//            if (tablero[posJugadorX+i][posJugadorY+j] == 2 && posJugadorX+i >= 0 && posJugadorY+j >= 0 ){
+//                contadorBombas+=1;
+//            }
+//        }
+//    }
+    
+    return contadorBombas;
+}
+
 
 void Juego::dibujarTablero(){
     for (int i=0;i<tamTablero;i++){
@@ -96,6 +214,8 @@ Juego::Juego(const Juego& z){
     tamTablero = z.tamTablero;
     cantVidas = z.cantVidas;
     cantBombas = z.cantBombas;
+    posJugadorX = z.posJugadorX;
+    posJugadorY = z.posJugadorY;
     
     tablero = new int* [tamTablero];
     
