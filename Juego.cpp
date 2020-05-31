@@ -81,7 +81,12 @@ void Juego::llenarTablero(){
     for (int i=0;i<=cantBombas;i++){
         int x = rand()%(tamTablero);
         int y = rand()%(tamTablero);
-        tablero[x][y] = 2;
+        
+        if (tablero[x][y] != 1 && tablero[x][y] != 3){
+            tablero[x][y] = 2;
+        }else {
+            i-=1;
+        }
     }
     
     dibujarTablero();
@@ -89,34 +94,37 @@ void Juego::llenarTablero(){
 }
 
 int Juego::mover(char d){
-    
-    switch(d) {
+    switch(toupper(d)) {
         case 'N':
-            if (tablero[posJugadorX+1][posJugadorY] == '0'){
+            if (tablero[posJugadorX+1][posJugadorY] == 0){
                 posJugadorX+=1;
                 tablero[posJugadorX][posJugadorY] = 1;
+                dibujarTablero();
                 return 0;
             }
-            else if (tablero[posJugadorX+1][posJugadorY] == '2'){
+            else if (tablero[posJugadorX+1][posJugadorY] == 2){
                 if (cantVidas>0){
                     cantVidas-=1;
+                    dibujarTablero();
                     return 1;
                 }
                 else{
+                    dibujarTablero();
                     return 2;
                 }
             }
             else {
                 return 3;
             }
+            return 0;
             break;
         case 'S':
-            if (tablero[posJugadorX-1][posJugadorY] == '0'){
+            if (tablero[posJugadorX-1][posJugadorY] == 0){
                 posJugadorX-=1;
                 tablero[posJugadorX][posJugadorY] = 1;
                 return 0;
             }
-            else if (tablero[posJugadorX-1][posJugadorY] == '2'){
+            else if (tablero[posJugadorX-1][posJugadorY] == 2){
                 if (cantVidas>0){
                     cantVidas-=1;
                     return 1;
@@ -128,15 +136,15 @@ int Juego::mover(char d){
             else {
                 return 3;
             }
-            
+            return 0;
             break;
         case 'E':
-            if (tablero[posJugadorX][posJugadorY-1] == '0'){
+            if (tablero[posJugadorX][posJugadorY-1] == 0){
                 posJugadorY-=1;
                 tablero[posJugadorX][posJugadorY] = 1;
                 return 0;
             }
-            else if (tablero[posJugadorX][posJugadorY-1] == '2'){
+            else if (tablero[posJugadorX][posJugadorY-1] == 2){
                 if (cantVidas>0){
                     cantVidas-=1;
                     return 1;
@@ -148,15 +156,15 @@ int Juego::mover(char d){
             else {
                 return 3;
             }
-            
+            return 0;
             break;
         case 'O':
-            if (tablero[posJugadorX][posJugadorY+1] == '0'){
+            if (tablero[posJugadorX][posJugadorY+1] == 0){
                 posJugadorY+=1;
                 tablero[posJugadorX][posJugadorY] = 1;
                 return 0;
             }
-            else if (tablero[posJugadorX][posJugadorY+1] == '2'){
+            else if (tablero[posJugadorX][posJugadorY+1] == 2){
                 if (cantVidas>0){
                     cantVidas-=1;
                     return 1;
@@ -168,7 +176,7 @@ int Juego::mover(char d){
             else {
                 return 3;
             }
-            
+            return 0;
             break;
         default:
             return 1;
@@ -187,13 +195,13 @@ int Juego::explorar(int r){
         }
     }
     
-//    for (int i=-r;i<=r;i++){
-//        for (int j=-r;j<=r;j++){
-//            if (tablero[posJugadorX+i][posJugadorY+j] == 2 && posJugadorX+i >= 0 && posJugadorY+j >= 0 ){
-//                contadorBombas+=1;
+//        for (int i=-r;i<=r;i++){
+//            for (int j=-r;j<=r;j++){
+//                if (tablero[posJugadorX+i][posJugadorY+j] == 2 && posJugadorX+i >= 0 && posJugadorY+j >= 0 ){
+//                    contadorBombas+=1;
+//                }
 //            }
 //        }
-//    }
     
     return contadorBombas;
 }

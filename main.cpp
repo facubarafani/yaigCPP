@@ -19,7 +19,7 @@ int main() {
     int accion;
     int sesion = 0;
     int radio;
-    int movimiento;
+    char movimiento;
     cout << "YAIG"<<endl;
     
 //    cout << "Ingrese el tamaño del tablero a continuación:"<<endl;
@@ -44,7 +44,16 @@ int main() {
     if (accion == 1){
         cout << "En que sentido desea moverse? Por ej: Si desea moverse hacia al norte ingrese N a continuacion: \n >";
         cin >> movimiento;
-        a.mover(movimiento);
+        if (a.mover(movimiento) == 2){
+            sesion = 0;
+        }
+        if (a.mover(movimiento) == 3){
+            sesion = 0;
+            cout << "Encontraste el tesoro! Ganaste!"<< endl;
+        }
+        else {
+            cout << "Tiene "<<a.getVidas()<<" vidas restantes"<<endl;
+        }
     }
         
     if (accion == 2){
