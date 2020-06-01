@@ -47,7 +47,7 @@ int main() {
         if (a.mover(movimiento) == 2){
             sesion = 0;
         }
-        if (a.mover(movimiento) == 3){
+        else if (a.mover(movimiento) == 3){
             sesion = 0;
             cout << "Encontraste el tesoro! Ganaste!"<< endl;
         }

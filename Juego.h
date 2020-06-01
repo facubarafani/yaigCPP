@@ -20,6 +20,7 @@ private:
     void generarTablero();
     void llenarTablero();
     void dibujarTablero();
+    int cambiarPosicion(int,int);
 public:
     Juego();
     Juego(int,int,int);

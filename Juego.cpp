@@ -96,91 +96,45 @@ void Juego::llenarTablero(){
 int Juego::mover(char d){
     switch(toupper(d)) {
         case 'N':
-            if (tablero[posJugadorX+1][posJugadorY] == 0){
-                posJugadorX+=1;
-                tablero[posJugadorX][posJugadorY] = 1;
-                dibujarTablero();
-                return 0;
-            }
-            else if (tablero[posJugadorX+1][posJugadorY] == 2){
-                if (cantVidas>0){
-                    cantVidas-=1;
-                    dibujarTablero();
-                    return 1;
-                }
-                else{
-                    dibujarTablero();
-                    return 2;
-                }
-            }
-            else {
-                return 3;
-            }
-            return 0;
+            return cambiarPosicion(1, 0);
             break;
         case 'S':
-            if (tablero[posJugadorX-1][posJugadorY] == 0){
-                posJugadorX-=1;
-                tablero[posJugadorX][posJugadorY] = 1;
-                return 0;
-            }
-            else if (tablero[posJugadorX-1][posJugadorY] == 2){
-                if (cantVidas>0){
-                    cantVidas-=1;
-                    return 1;
-                }
-                else{
-                    return 2;
-                }
-            }
-            else {
-                return 3;
-            }
-            return 0;
+            return cambiarPosicion(-1, 0);
             break;
         case 'E':
-            if (tablero[posJugadorX][posJugadorY-1] == 0){
-                posJugadorY-=1;
-                tablero[posJugadorX][posJugadorY] = 1;
-                return 0;
-            }
-            else if (tablero[posJugadorX][posJugadorY-1] == 2){
-                if (cantVidas>0){
-                    cantVidas-=1;
-                    return 1;
-                }
-                else{
-                    return 2;
-                }
-            }
-            else {
-                return 3;
-            }
-            return 0;
+            return cambiarPosicion(0, -1);
             break;
         case 'O':
-            if (tablero[posJugadorX][posJugadorY+1] == 0){
-                posJugadorY+=1;
-                tablero[posJugadorX][posJugadorY] = 1;
-                return 0;
-            }
-            else if (tablero[posJugadorX][posJugadorY+1] == 2){
-                if (cantVidas>0){
-                    cantVidas-=1;
-                    return 1;
-                }
-                else{
-                    return 2;
-                }
-            }
-            else {
-                return 3;
-            }
-            return 0;
+            return cambiarPosicion(0, 1);
             break;
         default:
-            return 1;
+            return 0;
+            break;
     }
+}
+
+int Juego::cambiarPosicion(int pX,int pY){
+    
+    if (tablero[posJugadorX+pX][posJugadorY+pY] == 0){
+        tablero[posJugadorX][posJugadorY] = 0;
+        posJugadorX+=pX;
+        posJugadorY+=pY;
+        tablero[posJugadorX][posJugadorY] = 1;
+        return 0;
+    }
+    if (tablero[posJugadorX+pX][posJugadorY+pY] == 2){
+        if (cantVidas>0){
+            cantVidas-=1;
+            return 1;
+        }
+        else{
+            return 2;
+        }
+    }
+    else {
+        return 0;
+    }
+    
 }
 
 int Juego::explorar(int r){
