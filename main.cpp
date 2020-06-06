@@ -1,10 +1,3 @@
-//
-//  main.cpp
-//  yaigFinal
-//
-//  Created by Facundo Barafani on 28/05/2020.
-//  Copyright © 2020 Facundo Barafani. All rights reserved.
-//
 
 #include <iostream>
 #include <iostream>
@@ -44,14 +37,19 @@ int main() {
     if (accion == 1){
         cout << "En que sentido desea moverse? Por ej: Si desea moverse hacia al norte ingrese N a continuacion: \n >";
         cin >> movimiento;
-        if (a.mover(movimiento) == 2){
+        int resultado = a.mover(movimiento);
+        if (resultado == 2){
             sesion = 0;
         }
-        else if (a.mover(movimiento) == 3){
+        if (resultado == 3){
             sesion = 0;
-            cout << "Encontraste el tesoro! Ganaste!"<< endl;
+            cout << "Encontraste el tesoro! Ganaste!" << endl;
+        }
+        if (resultado == -1){
+            cout << "Error! No se puede realizar ese movimiento!" << endl;
         }
         else {
+            cout << "Esta en la posicion ("<<a.getPosicionX()<<","<<a.getPosicionY()<<")"<<endl;
             cout << "Tiene "<<a.getVidas()<<" vidas restantes"<<endl;
         }
     }

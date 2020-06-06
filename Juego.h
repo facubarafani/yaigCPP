@@ -1,10 +1,3 @@
-//
-//  Juego.h
-//  yaigFinal
-//
-//  Created by Facundo Barafani on 28/05/2020.
-//  Copyright © 2020 Facundo Barafani. All rights reserved.
-//
 
 #ifndef Juego_h
 #define Juego_h
@@ -30,6 +23,8 @@ public:
     int explorar(int);
     int getVidas();
     int getTamTablero();
+    int getPosicionX();
+    int getPosicionY();
     ~Juego();
 };
 

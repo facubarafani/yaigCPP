@@ -1,10 +1,3 @@
-//
-//  Juego.cpp
-//  yaigFinal
-//
-//  Created by Facundo Barafani on 28/05/2020.
-//  Copyright © 2020 Facundo Barafani. All rights reserved.
-//
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -53,6 +46,14 @@ int Juego::getVidas(){
 
 int Juego::getTamTablero(){
     return tamTablero;
+}
+
+int Juego::getPosicionX(){
+    return posJugadorX;
+}
+
+int Juego::getPosicionY(){
+    return posJugadorY;
 }
 
 void Juego::generarTablero(){
@@ -120,21 +121,27 @@ int Juego::cambiarPosicion(int pX,int pY){
         posJugadorX+=pX;
         posJugadorY+=pY;
         tablero[posJugadorX][posJugadorY] = 1;
+        dibujarTablero();
         return 0;
     }
     if (tablero[posJugadorX+pX][posJugadorY+pY] == 2){
         if (cantVidas>0){
             cantVidas-=1;
+            dibujarTablero();
             return 1;
         }
         else{
+            dibujarTablero();
             return 2;
         }
     }
+    if (posJugadorX+pX <0 || posJugadorY+pY <0 || posJugadorX+pX > tamTablero || posJugadorY+pY > tamTablero ){
+        return -1;
+    }
     else {
+        dibujarTablero();
         return 0;
     }
-    
 }
 
 int Juego::explorar(int r){
@@ -142,20 +149,23 @@ int Juego::explorar(int r){
     int contadorBombas = 0;
     
     for (int i=0;i<=r;i++){
-        for (int j=0;j<=r;j++){
-            if (tablero[posJugadorX+i][posJugadorY+j] == 2){
+        if (posJugadorX+i <= tamTablero && posJugadorY+i <= tamTablero) {
+            if (tablero[posJugadorX+i][posJugadorY] == 2){
+                contadorBombas+=1;
+            }
+            if (tablero[posJugadorX][posJugadorY+i] == 2){
+                contadorBombas+=1;
+            }
+        }
+        if (posJugadorX-i >= 0  && posJugadorY-i >= 0) {
+            if (tablero[posJugadorX-i][posJugadorY] == 2){
+                contadorBombas+=1;
+            }
+            if (tablero[posJugadorX][posJugadorY-i] == 2){
                 contadorBombas+=1;
             }
         }
     }
-    
-//        for (int i=-r;i<=r;i++){
-//            for (int j=-r;j<=r;j++){
-//                if (tablero[posJugadorX+i][posJugadorY+j] == 2 && posJugadorX+i >= 0 && posJugadorY+j >= 0 ){
-//                    contadorBombas+=1;
-//                }
-//            }
-//        }
     
     return contadorBombas;
 }
