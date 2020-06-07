@@ -1,3 +1,4 @@
+// BARAFANI-DUBOWEZ
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -97,16 +98,16 @@ void Juego::llenarTablero(){
 int Juego::mover(char d){
     switch(toupper(d)) {
         case 'N':
-            return cambiarPosicion(1, 0);
-            break;
-        case 'S':
             return cambiarPosicion(-1, 0);
             break;
+        case 'S':
+            return cambiarPosicion(1, 0);
+            break;
         case 'E':
-            return cambiarPosicion(0, -1);
+            return cambiarPosicion(0, 1);
             break;
         case 'O':
-            return cambiarPosicion(0, 1);
+            return cambiarPosicion(0, -1);
             break;
         default:
             return 0;
@@ -127,6 +128,7 @@ int Juego::cambiarPosicion(int pX,int pY){
     if (tablero[posJugadorX+pX][posJugadorY+pY] == 2){
         if (cantVidas>0){
             cantVidas-=1;
+            tablero[posJugadorX+pX][posJugadorY+pY] = 0;
             dibujarTablero();
             return 1;
         }

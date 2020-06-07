@@ -1,3 +1,4 @@
+// BARAFANI-DUBOWEZ
 
 #include <iostream>
 #include <iostream>
@@ -39,7 +40,7 @@ int main() {
         cin >> movimiento;
         int resultado = a.mover(movimiento);
         if (resultado == 2){
-            sesion = 0;
+            sesion = 1;
         }
         if (resultado == 3){
             sesion = 0;
@@ -49,7 +50,7 @@ int main() {
             cout << "Error! No se puede realizar ese movimiento!" << endl;
         }
         else {
-            cout << "Esta en la posicion ("<<a.getPosicionX()<<","<<a.getPosicionY()<<")"<<endl;
+            cout << "Estas en la posicion ("<<a.getPosicionX()<<","<<a.getPosicionY()<<")"<<endl;
             cout << "Tiene "<<a.getVidas()<<" vidas restantes"<<endl;
         }
     }
