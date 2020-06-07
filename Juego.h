@@ -13,6 +13,7 @@ private:
     int posJugadorY;
     void generarTablero();
     void llenarTablero();
+    void dibujarTableroTest();
     void dibujarTablero();
     int cambiarPosicion(int,int);
 public:

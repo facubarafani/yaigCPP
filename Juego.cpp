@@ -28,7 +28,11 @@ Juego::Juego(){
 Juego::Juego(int tamTablero, int cantVidas, int cantBombas){
     this->tamTablero = tamTablero;
     this->cantVidas = cantVidas;
-    this->cantBombas = cantBombas;
+    if (cantBombas > (floor(pow(tamTablero, 2)*0.5))){
+        this->cantBombas = floor(pow(tamTablero, 2)*0.5);
+    }else {
+        this->cantBombas = cantBombas;
+    }
     posJugadorX = 0;
     posJugadorY = 0;
     tablero = new int* [tamTablero];
@@ -36,9 +40,7 @@ Juego::Juego(int tamTablero, int cantVidas, int cantBombas){
     for (int i=0;i<tamTablero;i++){
         tablero[i] = new int[tamTablero];
     }
-    
     generarTablero();
-    
 }
 
 int Juego::getVidas(){
@@ -79,15 +81,13 @@ void Juego::llenarTablero(){
     int tx = (rand()%tamTablero);
     int ty = (rand()%tamTablero);
     tablero[tx][ty] = 3;
-    
-    for (int i=0;i<=cantBombas;i++){
+    for (int i=0;i<cantBombas;){
         int x = rand()%(tamTablero);
         int y = rand()%(tamTablero);
         
-        if (tablero[x][y] != 1 && tablero[x][y] != 3){
+        if (tablero[x][y] != 1 && tablero[x][y] != 3 && tablero[x][y] != 2){
             tablero[x][y] = 2;
-        }else {
-            i-=1;
+            i++;
         }
     }
     
@@ -98,16 +98,16 @@ void Juego::llenarTablero(){
 int Juego::mover(char d){
     switch(toupper(d)) {
         case 'N':
-            return cambiarPosicion(-1, 0);
+            return cambiarPosicion(0, -1);
             break;
         case 'S':
-            return cambiarPosicion(1, 0);
-            break;
-        case 'E':
             return cambiarPosicion(0, 1);
             break;
+        case 'E':
+            return cambiarPosicion(1, 0);
+            break;
         case 'O':
-            return cambiarPosicion(0, -1);
+            return cambiarPosicion(-1, 0);
             break;
         default:
             return 0;
@@ -116,34 +116,36 @@ int Juego::mover(char d){
 }
 
 int Juego::cambiarPosicion(int pX,int pY){
-    
-    if (tablero[posJugadorX+pX][posJugadorY+pY] == 0){
-        tablero[posJugadorX][posJugadorY] = 0;
-        posJugadorX+=pX;
-        posJugadorY+=pY;
-        tablero[posJugadorX][posJugadorY] = 1;
-        dibujarTablero();
-        return 0;
-    }
-    if (tablero[posJugadorX+pX][posJugadorY+pY] == 2){
-        if (cantVidas>0){
-            cantVidas-=1;
-            tablero[posJugadorX+pX][posJugadorY+pY] = 0;
-            dibujarTablero();
-            return 1;
-        }
-        else{
-            dibujarTablero();
-            return 2;
-        }
-    }
-    if (posJugadorX+pX <0 || posJugadorY+pY <0 || posJugadorX+pX > tamTablero || posJugadorY+pY > tamTablero ){
+    if (posJugadorX+pX <0 || posJugadorY+pY <0 || posJugadorX+pX >= tamTablero || posJugadorY+pY >= tamTablero ){
         return -1;
     }
-    else {
+    if (tablero[posJugadorY+pY][posJugadorX+pX] == 0){
+        tablero[posJugadorY][posJugadorX] = 0;
+        posJugadorX+=pX;
+        posJugadorY+=pY;
+        tablero[posJugadorY][posJugadorX] = 1;
         dibujarTablero();
+        // dibujarTableroTest DESCOMENTAR PARA DEBUGEAR
         return 0;
     }
+    if (tablero[posJugadorY+pY][posJugadorX+pX] == 2){
+        cantVidas-=1;
+        if (cantVidas>0){
+            tablero[posJugadorY+pY][posJugadorX+pX] = 0;
+            dibujarTablero();
+            // dibujarTableroTest DESCOMENTAR PARA DEBUGEAR
+            return 1;
+        }
+        dibujarTableroTest();
+        return 2;
+    }
+    if (tablero[posJugadorY+pY][posJugadorX+pX] == 3){
+        dibujarTableroTest();
+        return 3;
+    }
+    dibujarTablero();
+    // dibujarTableroTest DESCOMENTAR PARA DEBUGEAR
+    return 0;
 }
 
 int Juego::explorar(int r){
@@ -173,12 +175,32 @@ int Juego::explorar(int r){
 }
 
 
+void Juego::dibujarTableroTest(){
+    for (int i=0;i<tamTablero;i++){
+        for (int j=0;j<tamTablero;j++){
+            if (tablero[i][j] == 2){
+                cout << " ☼ ";
+            }
+            if (tablero[i][j] == 3){
+                cout << " $ ";
+            }
+            if (tablero[i][j] == 1){
+                cout << " ☻ ";
+            }
+            if (tablero[i][j] == 0)
+            cout << " · ";
+            
+        }
+        cout << endl;
+    }
+}
+
 void Juego::dibujarTablero(){
     for (int i=0;i<tamTablero;i++){
         for (int j=0;j<tamTablero;j++){
-            
-            cout << tablero[i][j];
-            
+            if (tablero[i][j] == 1){
+                cout << " ☻ ";
+            }else cout << " · ";
         }
         cout << endl;
     }
