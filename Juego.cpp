@@ -153,7 +153,7 @@ int Juego::explorar(int r){
     int contadorBombas = 0;
     
     for (int i=0;i<=r;i++){
-        if (posJugadorX+i <= tamTablero && posJugadorY+i <= tamTablero) {
+        if (posJugadorX+i < tamTablero || posJugadorY+i < tamTablero) {
             if (tablero[posJugadorX+i][posJugadorY] == 2){
                 contadorBombas+=1;
             }

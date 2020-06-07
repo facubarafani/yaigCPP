@@ -14,6 +14,8 @@ int main() {
     int sesion = 0;
     int radio;
     char movimiento;
+    int repeticion = 0;
+    do {
     cout << "YAIG"<<endl;
     cout << "Ingrese el tamaño del tablero a continuación:"<<endl;
     do{
@@ -21,10 +23,15 @@ int main() {
         if (tamTablero <= 1) cout << "Error! Tamaño del tablero muy pequeño! \n Ingrese un valor nuevamente: "<<endl;
     }while(tamTablero<=1);
     cout << "Ingrese la cantidad de vidas:"<<endl;
+    do{
     cin >> cantVidas;
-
+         if (cantVidas < 1) cout << "Error! No puedes jugar con menos de una vida! \n Ingrese un valor nuevamente: "<<endl;
+    }while(cantVidas<1);
     cout << "Ingrese la cantidad de bombas:"<<endl;
+    do {
     cin >> cantBombas;
+        if (cantBombas < 1) cout << "Error! No puedes jugar con menos de una bombas! \n Ingrese un valor nuevamente: "<<endl;
+    }while(cantBombas<1);
     
     Juego a(tamTablero,cantVidas,cantBombas);
     
@@ -62,4 +69,11 @@ int main() {
     }
         
     }
+        cout << "Desea volver a jugar? Ingrese 1 \n Si desea salir ingrese 0"<<endl;
+        cin >> repeticion;
+        if (repeticion == 0){
+            cout << "Hasta la proxima!"<<endl;
+            break;
+        }
+    }while (repeticion = 1);
 }
